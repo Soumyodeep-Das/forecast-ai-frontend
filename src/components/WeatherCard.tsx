@@ -1,7 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Cloud, Sun, CloudRain } from "lucide-react";
 
-export default function WeatherCard({ weather }: { weather: any }) {
+
+interface WeatherData {
+  cityName: string;
+  temp: number;
+  humidity: number;
+  rain?: number;
+}
+
+export default function WeatherCard({ weather }: { weather: WeatherData }) {
   return (
     <Card className="w-full shadow-lg max-w-md mx-auto p-4">
       <CardContent>

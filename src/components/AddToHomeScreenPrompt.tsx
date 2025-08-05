@@ -1,33 +1,38 @@
-// components/AddToHomeScreenPrompt.tsx
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => void;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+};
 
 export default function AddToHomeScreenPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
-  const [showPrompt, setShowPrompt] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    const handler = (e: any) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-      setShowPrompt(true)
-    }
+    const handler = (e: Event) => {
+      e.preventDefault();
+      // Narrow the type to BeforeInstallPromptEvent
+      const promptEvent = e as BeforeInstallPromptEvent;
+      setDeferredPrompt(promptEvent);
+      setShowPrompt(true);
+    };
 
-    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener("beforeinstallprompt", handler);
 
-    return () => window.removeEventListener('beforeinstallprompt', handler)
-  }, [])
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return
-    // @ts-ignore
-    deferredPrompt.prompt()
-    const { outcome } = await (deferredPrompt as any).userChoice
-    console.log('User response to the install prompt:', outcome)
-    setDeferredPrompt(null)
-    setShowPrompt(false)
-  }
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log("User response to the install prompt:", outcome);
+    setDeferredPrompt(null);
+    setShowPrompt(false);
+  };
 
-  if (!showPrompt) return null
+  if (!showPrompt) return null;
 
   return (
     <div className="fixed bottom-4 right-4 p-4 bg-white dark:bg-zinc-900 shadow-md rounded-lg z-50">
@@ -39,5 +44,5 @@ export default function AddToHomeScreenPrompt() {
         Install
       </button>
     </div>
-  )
+  );
 }

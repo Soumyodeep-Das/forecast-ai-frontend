@@ -7,7 +7,8 @@ import AISuggestionButton from "./components/AISuggestionButton";
 function App() {
   const { coords, error: geoError } = useGeolocation();
 
-  const { data: weather, isLoading: weatherLoading } = useWeather(coords?.lat || 0, coords?.lon || 0);
+  const { data: weather, isLoading: weatherLoading } = useWeather({lat: coords?.lat || 0, lon: coords?.lon || 0});
+  console.log("Weather data:", weather);
 
   if (geoError) return <p className="text-red-500">{geoError}</p>;
   if (weatherLoading) return;
