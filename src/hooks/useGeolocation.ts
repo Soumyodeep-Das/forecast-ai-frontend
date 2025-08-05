@@ -14,7 +14,12 @@ export function useGeolocation() {
       (position) => {
         setCoords({ lat: position.coords.latitude, lon: position.coords.longitude });
       },
-      (err) => setError(err.message)
+      (err) => setError(err.message),
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
     );
   }, []);
 
