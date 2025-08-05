@@ -39,7 +39,7 @@ export default function AddToHomeScreenPrompt() {
       <p className="mb-2">Install Forecast AI?</p>
       <button
         onClick={handleInstallClick}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
+        className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded"
       >
         Install
       </button>
