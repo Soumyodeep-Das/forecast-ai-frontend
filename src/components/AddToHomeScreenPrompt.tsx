@@ -36,7 +36,7 @@ export default function AddToHomeScreenPrompt() {
 
   return (
     <div className="fixed bottom-4 right-4 p-4 bg-white dark:bg-zinc-900 shadow-md rounded-lg z-50">
-      <p className="mb-2">Install Forecast Sense?</p>
+      <p className="mb-2">Install Forecast AI?</p>
       <button
         onClick={handleInstallClick}
         className="bg-blue-600 text-white px-4 py-2 rounded"
