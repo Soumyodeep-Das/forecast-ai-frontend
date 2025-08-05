@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fetchSuggestions } from "../services/suggestionService";
 import SuggestionCard from "./SuggestionCard";
 import { GridLoader } from "react-spinners";
+import ProductButton from "./ProductButton"; // Assuming you want to keep the original ProductButton
 
 const AISuggestionButton = () => {
     const [suggestionData, setSuggestionData] = useState<{ suggestions: string[], context: string } | null>(null);
@@ -12,6 +13,7 @@ const AISuggestionButton = () => {
             setLoading(true);
             const fetchedSuggestions = await fetchSuggestions();
             setSuggestionData(fetchedSuggestions);
+            localStorage.setItem("suggestionData", JSON.stringify(fetchedSuggestions));
             console.log("Fetched suggestions:", fetchedSuggestions);
         } catch (error) {
             console.error("Failed to fetch suggestions:", error);
@@ -42,12 +44,14 @@ const AISuggestionButton = () => {
 
 
             {!loading && suggestionData && (
-                <div className="mt-4">
+                <div className="mt-4 flex flex-col items-center justify-center">
                     <SuggestionCard
                         suggestions={suggestionData.suggestions}
                         context={suggestionData.context}
                     />
+                    <ProductButton />
                 </div>
+
             )}
         </>
     );
