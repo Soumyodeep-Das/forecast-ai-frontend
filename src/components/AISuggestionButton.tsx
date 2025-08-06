@@ -3,10 +3,12 @@ import { fetchSuggestions } from "../services/suggestionService";
 import SuggestionCard from "./SuggestionCard";
 import { GridLoader } from "react-spinners";
 import ProductButton from "./ProductButton"; // Assuming you want to keep the original ProductButton
+import ErrorCard from "./ErrorCard";
 
 const AISuggestionButton = () => {
     const [suggestionData, setSuggestionData] = useState<{ suggestions: string[], context: string } | null>(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleClick = async () => {
         try {
@@ -15,8 +17,11 @@ const AISuggestionButton = () => {
             setSuggestionData(fetchedSuggestions);
             localStorage.setItem("suggestionData", JSON.stringify(fetchedSuggestions));
             console.log("Fetched suggestions:", fetchedSuggestions);
-        } catch (error) {
-            console.error("Failed to fetch suggestions:", error);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            console.error("Failed to fetch suggestions:", errorMessage);
+            setError(errorMessage);
+            setSuggestionData(null);
         } finally {
             setLoading(false);
         }
@@ -53,6 +58,16 @@ const AISuggestionButton = () => {
                 </div>
 
             )}
+
+            {!loading && error && (
+                <div className="mt-4 flex justify-center">
+                    <ErrorCard
+                        errorMessage={error}
+                        onRetry={handleClick}
+                    />
+                </div>
+            )}
+
         </>
     );
 };

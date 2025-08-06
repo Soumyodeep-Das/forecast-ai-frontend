@@ -1,22 +1,51 @@
-import { useGeolocation } from "@/hooks/useGeolocation";
-import { useWeather } from "@/hooks/useWeather";
+import { useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import SearchBar from "./components/SearchBar";
 import AISuggestionButton from "./components/AISuggestionButton";
 import AddToHomeScreenPrompt from "./components/AddToHomeScreenPrompt";
+import { useWeather } from "@/hooks/useWeather";
+import GeoPermissionCard from "@/components/GeoPermissionCard"; // Make sure it's placed here
 
 function App() {
-  const { coords, error: geoError } = useGeolocation();
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const [geoError, setGeoError] = useState<string | null>(null);
 
-  const { data: weather, isLoading: weatherLoading } = useWeather({lat: coords?.lat || 20, lon: coords?.lon || 80});
+  const { data: weather, isLoading: weatherLoading } = useWeather({
+    lat: coords?.lat || 20,
+    lon: coords?.lon || 80,
+  });
   console.log("Weather data:", weather);
+  // User skipped location
+  const handleSkipLocation = () => {
+    // Example fallback: Central India
+    setCoords({ lat: 20, lon: 80 });
+  };
 
-  if (geoError) return <p className="text-red-500">{geoError}</p>;
-  if (weatherLoading) return;
+  if (!coords && !geoError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <GeoPermissionCard
+          onPermissionGranted={(pos) => setCoords(pos)}
+          onPermissionDenied={(err) => setGeoError(err)}
+          onProceedWithoutLocation={handleSkipLocation}
+        />
+      </div>
+    );
+  }
+
+  if (geoError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {geoError}
+      </div>
+    );
+  }
+
+  if (weatherLoading) return null;
 
   return (
     <main className="p-4 min-h-screen flex flex-col items-center justify-start bg-background text-foreground">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center mb-6 w-full max-w-3xl">
         <h1 className="text-2xl font-bold">🌤️ Forecast AI</h1>
         <ThemeToggle />
       </div>
