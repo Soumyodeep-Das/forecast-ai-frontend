@@ -7,18 +7,32 @@ export default function SearchBar() {
     const [inputCity, setInputCity] = useState("");
     const [searchedCity, setSearchedCity] = useState<string | null>(null);
     const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
+    const [geoPermission, setGeoPermission] = useState<boolean | null>(null);
 
-    // Fetch geolocation on initial load
+    // On initial mount, check localStorage
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
-            },
-            (err) => {
-                console.error("Geolocation error:", err);
-            }
-        );
+        const storedPermission = localStorage.getItem("locationPermission");
+        if (storedPermission === "1") {
+            setGeoPermission(true);
+        } else {
+            setGeoPermission(false);
+        }
     }, []);
+
+    // Fetch geolocation if permission was allowed
+    useEffect(() => {
+        if (geoPermission) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+                },
+                (err) => {
+                    console.error("Geolocation error:", err);
+                }
+            );
+        }
+    }, [geoPermission]);
+
 
     const { data: weather, isLoading, error } = useWeather({
         lat: coords?.lat,
@@ -61,12 +75,12 @@ export default function SearchBar() {
 
             {isLoading && <div className="flex justify-center mt-4">
                 <div className="block dark:hidden">
-                  <SyncLoader color="#000" />
+                    <SyncLoader color="#000" />
                 </div>
                 <div className="hidden dark:block">
-                  <SyncLoader color="#fff" />
+                    <SyncLoader color="#fff" />
                 </div>
-              </div>}
+            </div>}
             {error && <p className="text-center text-red-500">Failed to fetch weather.</p>}
             {weather && <WeatherCard weather={weather.weatherData} />}
         </div>

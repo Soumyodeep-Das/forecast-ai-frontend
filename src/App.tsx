@@ -16,11 +16,6 @@ function App() {
     lon: coords?.lon || 80,
   });
   console.log("Weather data:", weather);
-  // User skipped location
-  const handleSkipLocation = () => {
-    // Example fallback: Central India
-    setCoords({ lat: 20, lon: 80 });
-  };
 
   if (!coords && !geoError) {
     return (
@@ -28,7 +23,7 @@ function App() {
         <GeoPermissionCard
           onPermissionGranted={(pos) => setCoords(pos)}
           onPermissionDenied={(err) => setGeoError(err)}
-          onProceedWithoutLocation={handleSkipLocation}
+          onProceedWithoutLocation={() => setCoords({ lat: 20, lon: 80 })}
         />
       </div>
     );
@@ -42,9 +37,6 @@ function App() {
           onRetry={() => setGeoError(null)}
         />
       </div>
-      // <div className="min-h-screen flex items-center justify-center text-red-500">
-      //   {geoError}
-      // </div>
     );
   }
 
