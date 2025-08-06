@@ -115,23 +115,6 @@ const getProductImage = (product: string) => {
   return "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=450&fit=crop&crop=center&sat=-100";
 };
 
-const getSimplifiedProductName = (product: string): string => {
-  const lower = product.toLowerCase();
-
-  if (lower.includes("shirt")) return "Shirt";
-  if (lower.includes("pant") || lower.includes("jean") || lower.includes("trouser")) return "Pant";
-  if (lower.includes("kurta") || lower.includes("top") || lower.includes("blouse")) return "Top";
-  if (lower.includes("shoe") || lower.includes("sandal") || lower.includes("boot")) return "Footwear";
-  if (lower.includes("hat") || lower.includes("cap")) return "Cap";
-  if (lower.includes("scarf")) return "Scarf";
-  if (lower.includes("watch")) return "Watch";
-  if (lower.includes("glass") || lower.includes("sunglass")) return "Sunglasses";
-  if (lower.includes("bag") || lower.includes("backpack")) return "Bag";
-  if (lower.includes("fan") || lower.includes("handkerchief")) return "Essentials";
-
-  return "Item";
-};
-
 
 const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
   return (

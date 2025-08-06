@@ -5,6 +5,7 @@ import AISuggestionButton from "./components/AISuggestionButton";
 import AddToHomeScreenPrompt from "./components/AddToHomeScreenPrompt";
 import { useWeather } from "@/hooks/useWeather";
 import GeoPermissionCard from "@/components/GeoPermissionCard"; // Make sure it's placed here
+import ErrorCard from "./components/ErrorCard";
 
 function App() {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
@@ -35,9 +36,15 @@ function App() {
 
   if (geoError) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
-        {geoError}
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <ErrorCard
+          errorMessage={geoError}
+          onRetry={() => setGeoError(null)}
+        />
       </div>
+      // <div className="min-h-screen flex items-center justify-center text-red-500">
+      //   {geoError}
+      // </div>
     );
   }
 
