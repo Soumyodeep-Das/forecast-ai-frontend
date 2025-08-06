@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ClockLoader } from "react-spinners";
 import ProductsCard from "./ProductsCard";
+import ErrorCard from "./ErrorCard";
 
 type SuggestionData = {
     suggestions: string[];
@@ -10,6 +11,7 @@ type SuggestionData = {
 const ProductButton = () => {
     const [suggestionData, setSuggestionData] = useState<SuggestionData | null>(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleClick = async () => {
         try {
@@ -18,8 +20,11 @@ const ProductButton = () => {
             const cachedSuggestionData = stored ? JSON.parse(stored) : null;
             setSuggestionData(cachedSuggestionData);
             console.log("Fetched suggestions:", cachedSuggestionData);
-        } catch (error) {
-            console.error("Failed to fetch suggestions:", error);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            console.error("Failed to fetch suggestions:", errorMessage);
+            setError(errorMessage);
+            setSuggestionData(null);
         } finally {
             setLoading(false);
         }
@@ -54,6 +59,16 @@ const ProductButton = () => {
                     />
                 </div>
             )}
+
+            {!loading && error && (
+                <div className="mt-4 flex justify-center">
+                    <ErrorCard
+                        errorMessage={error}
+                        onRetry={handleClick}
+                    />
+                </div>
+            )}
+
         </>
     );
 };

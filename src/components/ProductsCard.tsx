@@ -63,47 +63,62 @@ const getProductIcon = (product: string) => {
   return <Sparkles className="w-6 h-6" />;
 };
 
+let itemName = "Fashion Item";
 const getProductImage = (product: string) => {
   const item = product.toLowerCase();
-  
   if (item.includes('shirt') || item.includes('top') || item.includes('blouse')) {
+    itemName="Topware";
     return "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('jacket') || item.includes('coat')) {
+    itemName="Jacket";
     return "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('dress')) {
+    itemName="Dress";
     return "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('jeans') || item.includes('pants') || item.includes('trouser')) {
+    itemName="Bottomware";
     return "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('shoe') || item.includes('sneaker')) {
+    itemName="Footwear";
     return "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('boot')) {
+    itemName="Boots";
     return "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('watch')) {
+    itemName="Watch";
     return "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('glasses') || item.includes('sunglasses')) {
+    itemName="Sunglasses";
     return "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('bag') || item.includes('purse')) {
+    itemName="Bags";
     return "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   if (item.includes('hat') || item.includes('cap')) {
+    itemName="Caps";
     return "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
   
   // Default fashion item image
-  return "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=400&fit=crop&crop=center&sat=-100";
+  if (item.includes('accessories') || item.includes('jewelry')) {
+    itemName="Accessories";
+    return "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=400&h=400&fit=crop&crop=center&sat=-100";
+  }
+  return "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=450&fit=crop&crop=center&sat=-100";
 };
+
 
 const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
   return (
-    <div className="w-full max-w-4xl mx-auto mt-8">
+    <div className="w-full shadow-lg max-w-2xl mx-auto p-4 mt-6 bg-muted border rounded-2xl">
       {/* Header Section */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-black dark:bg-white mb-4">
@@ -118,12 +133,12 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {products.map((item, index) => (
-          <Card key={index} className="group hover:shadow-2xl transition-all duration-10 border-1 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white bg-white dark:bg-black overflow-hidden">
+          <Card key={index} className="group pt-0 hover:shadow-2xl transition-all duration-10 border-1 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white bg-white dark:bg-black overflow-hidden">
             <div className="relative">
               {/* Product Image */}
-              <div className="aspect-square w-full overflow-hidden bg-gray-100 dark:bg-black">
+              <div className="aspect-square h-full overflow-hidden bg-gray-100 dark:bg-black">
                 <img
                   src={getProductImage(item)}
                   alt={item}
@@ -148,7 +163,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
               </div>
             </div>
 
-            <CardContent className="p-6">
+            <CardContent className="">
               {/* Product Title */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 rounded-lg bg-black dark:bg-white text-white dark:text-black">
@@ -156,7 +171,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg text-black dark:text-white leading-tight">
-                    {item}
+                    {itemName}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Handpicked for you
@@ -229,13 +244,13 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
       </div>
 
       {/* Footer */}
-      <div className="text-center mt-8 p-6 rounded-2xl">
+      {/* <div className="text-center mt-8 p-6 rounded-2xl">
         <div className="flex items-center justify-center gap-2 text-sm text-black dark:text-white">
           <Sparkles className="w-4 h-4" />
           @Soumyodeep-Das
           <Sparkles className="w-4 h-4" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
