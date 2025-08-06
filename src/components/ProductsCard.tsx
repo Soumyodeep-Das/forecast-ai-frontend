@@ -63,30 +63,36 @@ const getProductIcon = (product: string) => {
   return <Sparkles className="w-6 h-6" />;
 };
 
-let itemName = "Fashion Item";
+let itemName = "";
 const getProductImage = (product: string) => {
   const item = product.toLowerCase();
-  if (item.includes('shirt') || item.includes('top') || item.includes('blouse')) {
+  if (item.includes('shirt') || item.includes('top') || item.includes('blouse') ||
+      item.includes('t-shirt') || item.includes('hoodie')) {
     itemName="Topware";
     return "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('jacket') || item.includes('coat')) {
+  if (item.includes('jacket') || item.includes('coat') || item.includes('blazer') ||
+      item.includes('sweatshirt') || item.includes('cardigan') || item.includes('sweater')) {
     itemName="Jacket";
     return "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('dress')) {
+  if (item.includes('dress') || item.includes('gown') || item.includes('skirt') ||
+      item.includes('tunic') || item.includes('jumpsuit')) {
     itemName="Dress";
     return "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('jeans') || item.includes('pants') || item.includes('trouser')) {
+  if (item.includes('jeans') || item.includes('pants') || item.includes('trouser') ||
+      item.includes('shorts') || item.includes('leggings') || item.includes('bottom')){
     itemName="Bottomware";
     return "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('shoe') || item.includes('sneaker')) {
+  if (item.includes('shoe') || item.includes('sneaker') || item.includes('sandal') ||
+      item.includes('heel') || item.includes('loafer')) {
     itemName="Footwear";
     return "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('boot')) {
+  if (item.includes('boot') || item.includes('ankle boot') || item.includes('combat boot') ||
+      item.includes('chelsea boot') || item.includes('knee-high boot')) {
     itemName="Boots";
     return "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
@@ -98,17 +104,18 @@ const getProductImage = (product: string) => {
     itemName="Sunglasses";
     return "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('bag') || item.includes('purse')) {
+  if (item.includes('bag') || item.includes('purse') || item.includes('wallet') ||
+      item.includes('backpack') || item.includes('tote') || item.includes('satchel')) {
     itemName="Bags";
     return "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  if (item.includes('hat') || item.includes('cap')) {
+  if (item.includes('hat') || item.includes('cap') || item.includes('beanie') ||
+      item.includes('headband') || item.includes('scarf')) {
     itemName="Caps";
     return "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
-  
-  // Default fashion item image
-  if (item.includes('accessories') || item.includes('jewelry')) {
+  if (item.includes('accessories') || item.includes('jewelry') || item.includes('jewellery') ||
+      item.includes('necklace') || item.includes('bracelet') || item.includes('ring')) {
     itemName="Accessories";
     return "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=400&h=400&fit=crop&crop=center&sat=-100";
   }
@@ -172,6 +179,8 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
                 <div>
                   <h3 className="font-semibold text-lg text-black dark:text-white leading-tight">
                     {itemName}
+                    {/* reset itemName after being used */}
+                    {itemName = ""}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Handpicked for you
