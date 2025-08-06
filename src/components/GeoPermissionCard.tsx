@@ -63,14 +63,21 @@ export default function GeoPermissionCard({
 
                 <div className="w-full flex flex-col gap-3">
                     <Button
-                        onClick={requestGeolocation}
+                        onClick={()=>{
+                            setErrorMessage("");
+                            requestGeolocation();
+                            localStorage.setItem("locationPermission", "1");
+                        }}
                         disabled={loading}
                         className="w-full border border-white bg-white text-black hover:bg-transparent hover:text-white transition"
                     >
                         {loading ? "Requesting..." : "Allow Access"}
                     </Button>
                     <Button
-                        onClick={onProceedWithoutLocation}
+                        onClick={(() => {
+                            onProceedWithoutLocation();
+                            localStorage.setItem("locationPermission", "0");
+                        })}
                         variant="outline"
                         className="w-full border border-white bg-white text-black hover:bg-transparent hover:text-white transition"
                     >
