@@ -63,7 +63,7 @@ const getProductIcon = (product: string) => {
   return <Sparkles className="w-6 h-6" />;
 };
 
-let itemName = "";
+let itemName = "Accessories";
 const getProductImage = (product: string) => {
   const item = product.toLowerCase();
   if (item.includes('shirt') || item.includes('top') || item.includes('blouse') ||
@@ -180,7 +180,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ products, context }) => {
                   <h3 className="font-semibold text-lg text-black dark:text-white leading-tight">
                     {itemName}
                     {/* reset itemName after being used */}
-                    {itemName = ""}
+                    {itemName = "Accessories"}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Handpicked for you
